@@ -1,0 +1,1 @@
+# Projeto-SENAI-Ecommerce_Supabase
