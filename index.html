@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loja Escola | Produtos</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+  </head>
+  <body>
+    <header class="topo">
+      <div class="container">
+        <p class="etiqueta">Programação Back-End · Sprint 4</p>
+        <h1>Loja Escola</h1>
+        <p>Cadastro de produtos, clientes e carrinho</p>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="painel" aria-labelledby="titulo-cadastro">
+        <p class="etiqueta">01 · Cadastrar</p>
+        <h2 id="titulo-cadastro">Novo produto</h2>
+        <p>
+          Preencha os dados. O servidor confere as informações antes de salvar.
+        </p>
+
+        <form id="formulario" novalidate>
+          <label for="nome">Nome do produto</label>
+          <input
+            id="nome"
+            name="nome"
+            type="text"
+            minlength="3"
+            maxlength="80"
+            placeholder="Ex.: Caderno universitário"
+            required
+          />
+
+          <label for="categoria">Categoria</label>
+          <select id="categoria" name="categoria_id" required>
+            <option value="">Selecione uma categoria</option>
+          </select>
+
+          <div class="campos-numericos">
+            <div>
+              <label for="preco">Preço (R$)</label>
+              <input
+                id="preco"
+                name="preco"
+                type="number"
+                min="0.01"
+                max="999999.99"
+                step="0.01"
+                placeholder="25,90"
+                required
+              />
+            </div>
+            <div>
+              <label for="estoque">Estoque (unidades)</label>
+              <input
+                id="estoque"
+                name="estoque"
+                type="number"
+                min="0"
+                max="1000000"
+                step="1"
+                placeholder="10"
+                required
+              />
+            </div>
+          </div>
+          <button id="botao-cadastrar" type="submit">Cadastrar produto</button>
+        </form>
+        <p id="mensagem" class="mensagem" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="painel" aria-labelledby="titulo-produtos">
+        <div class="cabecalho-lista">
+          <div>
+            <p class="etiqueta">02 · Consultar</p>
+            <h2 id="titulo-produtos">Produtos cadastrados</h2>
+          </div>
+          <button id="botao-atualizar" type="button" class="secundario">
+            Atualizar lista
+          </button>
+        </div>
+        <p id="mensagem-lista" role="status" aria-live="polite"></p>
+        <div class="tabela-rolagem">
+          <table>
+            <caption>
+              Catálogo da loja
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Produto</th>
+                <th scope="col">Categoria</th>
+                <th scope="col">Preço</th>
+                <th scope="col">Estoque</th>
+              </tr>
+            </thead>
+            <tbody id="lista-produtos"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="painel" aria-labelledby="titulo-clientes">
+        <p class="etiqueta">03 · Clientes</p>
+        <h2 id="titulo-clientes">Cadastro de clientes</h2>
+        <p>Cadastre um cliente para poder adicionar produtos ao carrinho.</p>
+
+        <form id="formulario-cliente" novalidate>
+          <label for="cliente-nome">Nome</label>
+          <input
+            id="cliente-nome"
+            name="cliente-nome"
+            type="text"
+            maxlength="120"
+            placeholder="Ex.: Maria da Silva"
+            required
+          />
+
+          <label for="cliente-email">E-mail</label>
+          <input
+            id="cliente-email"
+            name="cliente-email"
+            type="email"
+            maxlength="150"
+            placeholder="maria@email.com"
+            required
+          />
+
+          <label for="cliente-telefone">Telefone (opcional)</label>
+          <input
+            id="cliente-telefone"
+            name="cliente-telefone"
+            type="tel"
+            maxlength="25"
+            placeholder="(11) 99999-9999"
+          />
+
+          <button id="botao-cadastrar-cliente" type="submit">
+            Cadastrar cliente
+          </button>
+        </form>
+        <p
+          id="mensagem-cliente"
+          class="mensagem"
+          role="status"
+          aria-live="polite"
+        ></p>
+      </section>
+
+      <section class="painel" aria-labelledby="titulo-carrinho">
+        <div class="cabecalho-lista">
+          <div>
+            <p class="etiqueta">04 · Carrinho</p>
+            <h2 id="titulo-carrinho">Carrinho de compras</h2>
+          </div>
+        </div>
+
+        <form id="formulario-carrinho" novalidate>
+          <label for="cliente">Cliente</label>
+          <select id="cliente" name="cliente" required>
+            <option value="">Selecione um cliente</option>
+          </select>
+
+          <div class="campos-numericos">
+            <div>
+              <label for="produto-carrinho">Produto</label>
+              <select id="produto-carrinho" name="produto-carrinho" required>
+                <option value="">Selecione um produto</option>
+              </select>
+            </div>
+            <div>
+              <label for="quantidade-carrinho">Quantidade</label>
+              <input
+                id="quantidade-carrinho"
+                name="quantidade-carrinho"
+                type="number"
+                min="1"
+                step="1"
+                value="1"
+                required
+              />
+            </div>
+          </div>
+
+          <button id="botao-adicionar-carrinho" type="submit">
+            Adicionar ao carrinho
+          </button>
+        </form>
+
+        <p
+          id="mensagem-carrinho"
+          class="mensagem"
+          role="status"
+          aria-live="polite"
+        ></p>
+
+        <div class="tabela-rolagem">
+          <table>
+            <caption>
+              Itens do carrinho
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Produto</th>
+                <th scope="col">Quantidade</th>
+                <th scope="col">Preço unitário</th>
+                <th scope="col">Subtotal</th>
+                <th scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="lista-carrinho"></tbody>
+          </table>
+        </div>
+
+        <p class="total-carrinho">
+          Total: <strong id="total-carrinho">R$ 0,00</strong>
+        </p>
+      </section>
+    </main>
+
+    <footer class="container">
+      Loja Escola · Laboratório de desenvolvimento de sistemas
+    </footer>
+  </body>
+</html>
